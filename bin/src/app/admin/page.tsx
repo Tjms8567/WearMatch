@@ -32,6 +32,10 @@ export default function AdminHome() {
             <h2 className="text-xl font-semibold">Customers</h2>
             <p className="text-gray-600">Segments, LTV and exports</p>
           </Link>
+          <Link href="/admin/social" className="block bg-white p-6 rounded shadow hover:shadow-md">
+            <h2 className="text-xl font-semibold">Social</h2>
+            <p className="text-gray-600">Connect accounts and manage posts</p>
+          </Link>
         </div>
       </AdminGate>
     </div>

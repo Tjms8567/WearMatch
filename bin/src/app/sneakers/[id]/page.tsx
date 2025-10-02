@@ -11,6 +11,8 @@ export default function SneakerDetail({ params }: { params: { id: string } }) {
   const [sneaker, setSneaker] = useState<Sneaker | null>(null);
   const [matchingOutfits, setMatchingOutfits] = useState<Outfit[]>([]);
   const [selectedStyle, setSelectedStyle] = useState('All');
+  const relatedSneakers = sneakers.filter(s => s.id !== params.id && s.brand === sneaker?.brand).slice(0, 4);
+  const [related, setRelated] = useState<Sneaker[]>([]);
 
   useEffect(() => {
     const foundSneaker = sneakers.find(s => s.id === params.id);
@@ -18,6 +20,10 @@ export default function SneakerDetail({ params }: { params: { id: string } }) {
       setSneaker(foundSneaker);
       const outfits = getMatchingOutfits(params.id);
       setMatchingOutfits(outfits);
+      // Related sneakers: same brand or overlapping styles
+      const others = sneakers.filter(s => s.id !== foundSneaker.id);
+      const rel = others.filter(s => s.brand === foundSneaker.brand || s.styles.some(st => foundSneaker.styles.includes(st))).slice(0, 6);
+      setRelated(rel);
     }
   }, [sneakers, params.id, getMatchingOutfits]);
 
@@ -140,6 +146,38 @@ export default function SneakerDetail({ params }: { params: { id: string } }) {
           </div>
         )}
       </div>
+
+      {relatedSneakers.length > 0 && (
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold mb-4">Related Sneakers</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {relatedSneakers.map((s) => (
+              <Link key={s.id} href={`/sneakers/${s.id}`} className="bg-white rounded-lg shadow p-3 block">
+                <img src={s.image} alt={s.model} className="w-full h-40 object-cover rounded" />
+                <div className="mt-2 font-semibold">{s.brand} {s.model}</div>
+                <div className="text-sm text-gray-600">${'{'}s.price{'}'}</div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {related.length > 0 && (
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold mb-4">You may also like</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {related.map(r => (
+              <Link key={r.id} href={`/sneakers/${r.id}`} className="block bg-white rounded-lg shadow hover:shadow-md overflow-hidden">
+                <img src={r.image} alt={`${r.brand} ${r.model}`} className="w-full h-48 object-cover" />
+                <div className="p-4">
+                  <div className="font-semibold">{r.brand} {r.model}</div>
+                  <div className="text-sm text-gray-600">{r.colorway}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

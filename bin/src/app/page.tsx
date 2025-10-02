@@ -2,6 +2,7 @@ import Link from 'next/link'
 import FeaturedSneakers from '@/components/FeaturedSneakers'
 import HeroSlider from '@/components/HeroSlider'
 import BrandsList from '@/components/BrandsList'
+import SocialFeed from '@/components/SocialFeed'
 
 export default function Home() {
   return (
@@ -28,6 +29,8 @@ export default function Home() {
           View Cart
         </Link>
       </section>
+
+      <SocialFeed />
     </div>
   )
 }

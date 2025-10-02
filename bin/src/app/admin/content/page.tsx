@@ -4,7 +4,8 @@ import { useContentContext } from '@/context/ContentContext';
 import { useState } from 'react';
 
 export default function AdminContentPage() {
-  const { slides, addSlide, removeSlide, designs, addDesign, removeDesign, exportContent } = useContentContext();
+  const { slides, addSlide, removeSlide, designs, addDesign, removeDesign, exportContent, palettes, addPalette, removePalette } = useContentContext();
+  const [palette, setPalette] = useState({ name: '', colors: '' });
   const [slide, setSlide] = useState({ image: '', title: '', subtitle: '', ctaText: '', ctaHref: '' });
   const [designName, setDesignName] = useState('');
   const [designSvg, setDesignSvg] = useState('');
@@ -32,11 +33,18 @@ export default function AdminContentPage() {
     URL.revokeObjectURL(url);
   };
 
+  const onAddPalette = () => {
+    if (!palette.name || !palette.colors) return alert('Name and colors required');
+    const colors = palette.colors.split(',').map(c => c.trim()).filter(Boolean);
+    addPalette({ id: `pal_${Date.now()}`, name: palette.name, colors });
+    setPalette({ name: '', colors: '' });
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <AdminGate>
         <h1 className="text-2xl font-bold mb-6">Manage Hero Slides & Designs</h1>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="bg-white p-4 rounded shadow">
             <h2 className="font-semibold mb-3">Hero Slides</h2>
             <div className="space-y-2">
@@ -83,6 +91,30 @@ export default function AdminContentPage() {
               <textarea className="border rounded px-3 py-2 w-full" placeholder="SVG code" rows={4} value={designSvg} onChange={(e) => setDesignSvg(e.target.value)} />
             </div>
             <button className="mt-3 bg-blue-600 text-white px-4 py-2 rounded" onClick={onAddDesign}>Add Design</button>
+          </div>
+          <div className="bg-white p-4 rounded shadow">
+            <h2 className="font-semibold mb-3">Color Palettes</h2>
+            <div className="space-y-2">
+              {palettes.map((p) => (
+                <div key={p.id} className="bg-gray-50 p-2 rounded">
+                  <div className="flex items-center justify-between">
+                    <div className="font-medium">{p.name}</div>
+                    <button className="text-red-600 hover:underline" onClick={()=>removePalette(p.id)}>Delete</button>
+                  </div>
+                  <div className="flex items-center gap-2 mt-2">
+                    {p.colors.map((c, idx)=> (
+                      <span key={idx} className="w-5 h-5 rounded-full border" style={{ background: c }} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+              {palettes.length === 0 && <p className="text-gray-600">No palettes yet.</p>}
+            </div>
+            <div className="mt-4 grid grid-cols-1 gap-2">
+              <input className="border rounded px-3 py-2" placeholder="Palette name" value={palette.name} onChange={(e)=>setPalette({...palette, name: e.target.value})} />
+              <input className="border rounded px-3 py-2" placeholder="Colors (comma separated)" value={palette.colors} onChange={(e)=>setPalette({...palette, colors: e.target.value})} />
+            </div>
+            <button className="mt-3 bg-blue-600 text-white px-4 py-2 rounded" onClick={onAddPalette}>Add Palette</button>
           </div>
         </div>
         <div className="mt-6">

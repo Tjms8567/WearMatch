@@ -13,6 +13,7 @@ export interface CartItem {
   quantity: number;
   selectedColor?: string;
   selectedDesignId?: string;
+  size?: string;
 }
 
 interface CartContextType {

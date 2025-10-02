@@ -13,6 +13,7 @@ export interface OrderItem {
   quantity: number;
   selectedColor?: string;
   selectedDesignId?: string;
+  size?: string;
 }
 
 export interface CustomerInfo {

@@ -1,0 +1,22 @@
+# Node
+node_modules/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-store/
+
+# Next.js
+.next/
+out/
+.vercel/
+
+# Monorepo subdir (bin) to avoid committing heavy artifacts
+bin/node_modules/
+bin/.next/
+bin/out/
+
+# Misc
+.DS_Store
+coverage/
+dist/

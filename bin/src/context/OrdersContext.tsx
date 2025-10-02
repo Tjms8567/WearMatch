@@ -31,6 +31,7 @@ export interface Order {
   subtotal: number;
   total: number;
   status: OrderStatus;
+  history?: { status: OrderStatus; at: string }[];
   createdAt: string; // ISO string
   customer: CustomerInfo;
   notes?: string;
@@ -38,7 +39,7 @@ export interface Order {
 
 interface OrdersContextType {
   orders: Order[];
-  createOrder: (order: Omit<Order, 'id' | 'status' | 'createdAt'>) => Order;
+  createOrder: (order: Omit<Order, 'id' | 'status' | 'createdAt' | 'history'>) => Order;
   updateStatus: (orderId: string, status: OrderStatus) => void;
   clearAll: () => void;
 }
@@ -67,6 +68,7 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
       id,
       ...input,
       status: 'pending',
+      history: [{ status: 'pending', at: new Date().toISOString() }],
       createdAt: new Date().toISOString(),
     };
     const next = [order, ...orders];
@@ -75,7 +77,7 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateStatus: OrdersContextType['updateStatus'] = (orderId, status) => {
-    const next = orders.map((o) => (o.id === orderId ? { ...o, status } : o));
+    const next = orders.map((o) => (o.id === orderId ? { ...o, status, history: [...(o.history || []), { status, at: new Date().toISOString() }] } : o));
     persist(next);
   };
 

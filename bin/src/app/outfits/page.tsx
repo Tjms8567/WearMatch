@@ -5,6 +5,7 @@ import { useCart } from '@/context/CartContext';
 import { useContentContext } from '@/context/ContentContext';
 import { useMemo, useState } from 'react';
 import ProductPreview from '@/components/ProductPreview';
+import SizeGuide from '@/components/SizeGuide';
 
 export default function OutfitsPage() {
   const { outfits } = useSneakerContext();
@@ -12,6 +13,8 @@ export default function OutfitsPage() {
   const { designs } = useContentContext();
   const [selectedColorById, setSelectedColorById] = useState<Record<string, string>>({});
   const [selectedDesignById, setSelectedDesignById] = useState<Record<string, string>>({});
+  const [selectedSizeById, setSelectedSizeById] = useState<Record<string, string>>({});
+  const [openGuide, setOpenGuide] = useState(false);
   
   return (
     <div className="container mx-auto px-4 py-8">

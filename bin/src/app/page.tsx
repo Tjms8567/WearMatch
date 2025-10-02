@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import FeaturedSneakers from '@/components/FeaturedSneakers'
-import HeroSection from '@/components/HeroSection'
+import HeroSlider from '@/components/HeroSlider'
 import BrandsList from '@/components/BrandsList'
 
 export default function Home() {
   return (
     <div className="container mx-auto px-4">
-      <HeroSection />
+      <HeroSlider />
       
       <section className="my-12">
         <h2 className="text-3xl font-bold mb-6">Featured Sneakers</h2>

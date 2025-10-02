@@ -23,6 +23,19 @@ export default function CartPage() {
                 <div className="flex-1">
                   <h3 className="font-semibold">{item.name}</h3>
                   <p className="text-gray-500 capitalize text-sm">{item.type}</p>
+                  {(item.selectedColor || item.selectedDesignId) && (
+                    <div className="mt-1 flex items-center gap-3 text-sm">
+                      {item.selectedColor && (
+                        <span className="flex items-center gap-1">
+                          <span className="w-3 h-3 rounded-full border" style={{ background: item.selectedColor }} />
+                          <span className="text-gray-600">{item.selectedColor}</span>
+                        </span>
+                      )}
+                      {item.selectedDesignId && (
+                        <span className="text-gray-600">Design: {item.selectedDesignId}</span>
+                      )}
+                    </div>
+                  )}
                   <div className="mt-2 flex items-center gap-4">
                     <span className="font-semibold">${'{'}item.price{'}'}</span>
                     <div className="flex items-center gap-2">

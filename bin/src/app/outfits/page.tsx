@@ -2,10 +2,13 @@
 import { useSneakerContext } from '@/context/SneakerContext';
 import { Outfit, OutfitItem } from '@/context/SneakerContext';
 import { useCart } from '@/context/CartContext';
+import { useContentContext } from '@/context/ContentContext';
+import { useMemo, useState } from 'react';
 
 export default function OutfitsPage() {
   const { outfits } = useSneakerContext();
   const { addItem } = useCart();
+  const { designs } = useContentContext();
   
   return (
     <div className="container mx-auto px-4 py-8">
@@ -17,6 +20,26 @@ export default function OutfitsPage() {
             <div className="p-6">
               <h2 className="text-xl font-bold mb-2">{outfit.name}</h2>
               <p className="text-gray-600 mb-4">{outfit.description}</p>
+              {/* Color palette from outfit colors + matching algorithm choices */}
+              <div className="flex items-center gap-2 mb-4">
+                {['primary','secondary','accent'].map((key) => (
+                  <div key={key} className="flex items-center gap-2">
+                    <span className="text-xs capitalize text-gray-500 w-16">{key}</span>
+                    <span className="w-6 h-6 rounded-full border" style={{ background: (outfit.colors as any)[key] }} />
+                  </div>
+                ))}
+              </div>
+              {/* Design selection bar */}
+              {designs.length > 0 && (
+                <div className="mb-4">
+                  <h3 className="font-semibold mb-2">Designs</h3>
+                  <div className="flex gap-2 overflow-auto">
+                    {designs.map((d) => (
+                      <div key={d.id} className="min-w-[130px] h-12 bg-white border rounded flex items-center justify-center px-2" dangerouslySetInnerHTML={{ __html: d.svg }} />
+                    ))}
+                  </div>
+                </div>
+              )}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex flex-wrap gap-2">
                 {outfit.styles.map((style, index) => (
@@ -35,6 +58,8 @@ export default function OutfitsPage() {
                         name: outfit.name,
                         image: outfit.image,
                         price: outfit.price ?? 0,
+                        selectedColor: outfit.colors.primary,
+                        selectedDesignId: designs[0]?.id,
                       })}
                       className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
                     >

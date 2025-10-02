@@ -16,6 +16,10 @@ export default function AdminHome() {
             <h2 className="text-xl font-semibold">Manage Outfits</h2>
             <p className="text-gray-600">Add, edit, remove, and export outfits</p>
           </Link>
+          <Link href="/admin/content" className="block bg-white p-6 rounded shadow hover:shadow-md">
+            <h2 className="text-xl font-semibold">Hero & Designs</h2>
+            <p className="text-gray-600">Manage hero slides and text/SVG designs</p>
+          </Link>
         </div>
       </AdminGate>
     </div>

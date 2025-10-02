@@ -38,6 +38,7 @@ export interface Outfit {
   colors: Color;
   styles: string[];
   items?: OutfitItem[];
+  sizes?: string[];
   description: string;
 }
 

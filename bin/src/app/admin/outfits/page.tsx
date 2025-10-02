@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 
 export default function AdminOutfitsPage() {
   const { outfits, addOutfit, removeOutfit, exportData } = useSneakerContext();
-  const [form, setForm] = useState<Partial<Outfit>>({ name: '', image: '', price: 0, colors: { primary: '', secondary: '', accent: '' }, styles: [], items: [], description: '' });
+  const [form, setForm] = useState<Partial<Outfit>>({ name: '', image: '', price: 0, colors: { primary: '', secondary: '', accent: '' }, styles: [], items: [], sizes: ['S','M','L','XL'], description: '' });
 
   const nextId = useMemo(() => {
     const ids = outfits.map(o => o.id);
@@ -31,6 +31,7 @@ export default function AdminOutfitsPage() {
       colors: form.colors || { primary: '', secondary: '', accent: '' },
       styles: form.styles || [],
       items: form.items || [],
+      sizes: form.sizes || ['S','M','L','XL'],
       description: form.description || '',
     } as Outfit;
     addOutfit(o);
@@ -58,6 +59,10 @@ export default function AdminOutfitsPage() {
             <input className="border rounded px-3 py-2" placeholder="Name" value={form.name || ''} onChange={(e) => setForm({ ...form, name: e.target.value })} />
             <input className="border rounded px-3 py-2" placeholder="Image URL" value={form.image || ''} onChange={(e) => setForm({ ...form, image: e.target.value })} />
             <input className="border rounded px-3 py-2" type="number" placeholder="Price" value={Number(form.price) || 0} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} />
+          </div>
+          <div className="mt-3">
+            <label className="block text-sm font-medium mb-1">Sizes (comma separated)</label>
+            <input className="border rounded px-3 py-2 w-full" placeholder="e.g. XS,S,M,L,XL" value={(form.sizes || []).join(',')} onChange={(e)=> setForm({ ...form, sizes: e.target.value.split(',').map(s=>s.trim()).filter(Boolean) })} />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
             <input className="border rounded px-3 py-2" placeholder="Primary color" value={form.colors?.primary || ''} onChange={(e) => setForm({ ...form, colors: { ...(form.colors || { primary: '', secondary: '', accent: '' }), primary: e.target.value } })} />

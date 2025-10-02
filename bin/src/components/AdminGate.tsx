@@ -1,8 +1,10 @@
 'use client';
 import React, { useMemo, useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
 
 export default function AdminGate({ children }: { children: React.ReactNode }) {
   const expected = useMemo(() => process.env.NEXT_PUBLIC_ADMIN_PASSWORD || '', []);
+  const { isAdmin } = useAuth();
   const [input, setInput] = useState('');
   const [authed, setAuthed] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
@@ -26,7 +28,7 @@ export default function AdminGate({ children }: { children: React.ReactNode }) {
   };
 
   // If already authed via secret manage link, allow access regardless of expected
-  if (authed) {
+  if (authed || isAdmin) {
     return (
       <div>
         <div className="mb-4 flex justify-end">

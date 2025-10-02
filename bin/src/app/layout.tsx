@@ -7,6 +7,7 @@ import { SneakerProvider } from '@/context/SneakerContext'
 import { CartProvider } from '@/context/CartContext'
 import { ThemeProvider } from 'next-themes'
 import { ContentProvider } from '@/context/ContentContext'
+import { AuthProvider } from '@/context/AuthContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,19 +25,21 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <ContentProvider>
-            <SneakerProvider>
-              <CartProvider>
-                <div className="flex flex-col min-h-screen">
-                  <Navbar />
-                  <main className="flex-grow">
-                    {children}
-                  </main>
-                  <Footer />
-                </div>
-              </CartProvider>
-            </SneakerProvider>
-          </ContentProvider>
+          <AuthProvider>
+            <ContentProvider>
+              <SneakerProvider>
+                <CartProvider>
+                  <div className="flex flex-col min-h-screen">
+                    <Navbar />
+                    <main className="flex-grow">
+                      {children}
+                    </main>
+                    <Footer />
+                  </div>
+                </CartProvider>
+              </SneakerProvider>
+            </ContentProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

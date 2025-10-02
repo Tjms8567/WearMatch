@@ -12,6 +12,7 @@ export default function Navbar() {
           <Link href="/sneakers" className="text-gray-700 hover:text-black">Sneakers</Link>
           <Link href="/outfits" className="text-gray-700 hover:text-black">Outfits</Link>
           <Link href="/brands" className="text-gray-700 hover:text-black">Brands</Link>
+          <Link href="/admin" className="text-gray-700 hover:text-black">Admin</Link>
           <Link href="/cart" className="relative text-gray-700 hover:text-black">
             Cart
             <span className="ml-2 inline-flex items-center justify-center rounded-full bg-blue-500 text-white text-xs w-6 h-6">

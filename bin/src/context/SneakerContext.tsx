@@ -53,6 +53,14 @@ interface SneakerContextType {
   getMatchingOutfits: (sneakerId: string) => Outfit[];
   filterSneakersByBrand: (brand: string) => void;
   getAllBrands: () => string[];
+  // Admin CRUD APIs
+  addSneaker: (s: Sneaker) => void;
+  updateSneaker: (id: string, update: Partial<Sneaker>) => void;
+  removeSneaker: (id: string) => void;
+  addOutfit: (o: Outfit) => void;
+  updateOutfit: (id: string, update: Partial<Outfit>) => void;
+  removeOutfit: (id: string) => void;
+  exportData: () => { sneakers: Sneaker[]; outfits: Outfit[] };
 }
 
 // Create context
@@ -67,13 +75,45 @@ export function SneakerProvider({ children }: { children: ReactNode }) {
   const [selectedSneaker, setSelectedSneaker] = useState<Sneaker | null>(null);
   const [selectedBrand, setSelectedBrand] = useState<string>('');
 
-  // Initialize data
+  // Initialize data with localStorage override if available
   useEffect(() => {
-    setSneakers(sneakersData as Sneaker[]);
-    setOutfits(outfitsData as Outfit[]);
-    setFilteredSneakers(sneakersData as Sneaker[]);
-    setFilteredOutfits(outfitsData as Outfit[]);
+    try {
+      const storedSneakers = typeof window !== 'undefined' ? localStorage.getItem('wearmatch_sneakers') : null;
+      const storedOutfits = typeof window !== 'undefined' ? localStorage.getItem('wearmatch_outfits') : null;
+
+      const initialSneakers = storedSneakers ? (JSON.parse(storedSneakers) as Sneaker[]) : (sneakersData as Sneaker[]);
+      const initialOutfits = storedOutfits ? (JSON.parse(storedOutfits) as Outfit[]) : (outfitsData as Outfit[]);
+
+      setSneakers(initialSneakers);
+      setOutfits(initialOutfits);
+      setFilteredSneakers(initialSneakers);
+      setFilteredOutfits(initialOutfits);
+    } catch (_e) {
+      setSneakers(sneakersData as Sneaker[]);
+      setOutfits(outfitsData as Outfit[]);
+      setFilteredSneakers(sneakersData as Sneaker[]);
+      setFilteredOutfits(outfitsData as Outfit[]);
+    }
   }, []);
+
+  const persistSneakers = (next: Sneaker[]) => {
+    setSneakers(next);
+    setFilteredSneakers((prev) => {
+      if (!selectedBrand) return next;
+      return next.filter(s => s.brand === selectedBrand);
+    });
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('wearmatch_sneakers', JSON.stringify(next));
+    }
+  };
+
+  const persistOutfits = (next: Outfit[]) => {
+    setOutfits(next);
+    setFilteredOutfits(next);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('wearmatch_outfits', JSON.stringify(next));
+    }
+  };
 
   // Get all unique brands
   const getAllBrands = (): string[] => {
@@ -111,7 +151,33 @@ export function SneakerProvider({ children }: { children: ReactNode }) {
     setSelectedSneaker,
     getMatchingOutfits,
     filterSneakersByBrand,
-    getAllBrands
+    getAllBrands,
+    // Admin
+    addSneaker: (s: Sneaker) => {
+      const next = [...sneakers, s];
+      persistSneakers(next);
+    },
+    updateSneaker: (id: string, update: Partial<Sneaker>) => {
+      const next = sneakers.map(s => (s.id === id ? { ...s, ...update } : s));
+      persistSneakers(next);
+    },
+    removeSneaker: (id: string) => {
+      const next = sneakers.filter(s => s.id !== id);
+      persistSneakers(next);
+    },
+    addOutfit: (o: Outfit) => {
+      const next = [...outfits, o];
+      persistOutfits(next);
+    },
+    updateOutfit: (id: string, update: Partial<Outfit>) => {
+      const next = outfits.map(o => (o.id === id ? { ...o, ...update } : o));
+      persistOutfits(next);
+    },
+    removeOutfit: (id: string) => {
+      const next = outfits.filter(o => o.id !== id);
+      persistOutfits(next);
+    },
+    exportData: () => ({ sneakers, outfits })
   };
 
   return (

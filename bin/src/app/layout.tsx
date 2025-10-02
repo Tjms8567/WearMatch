@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { SneakerProvider } from '@/context/SneakerContext'
 import { CartProvider } from '@/context/CartContext'
+import { OrdersProvider } from '@/context/OrdersContext'
 import { ThemeProvider } from 'next-themes'
 import { ContentProvider } from '@/context/ContentContext'
 import { AuthProvider } from '@/context/AuthContext'
@@ -28,15 +29,17 @@ export default function RootLayout({
           <AuthProvider>
             <ContentProvider>
               <SneakerProvider>
-                <CartProvider>
-                  <div className="flex flex-col min-h-screen">
-                    <Navbar />
-                    <main className="flex-grow">
-                      {children}
-                    </main>
-                    <Footer />
-                  </div>
-                </CartProvider>
+                <OrdersProvider>
+                  <CartProvider>
+                    <div className="flex flex-col min-h-screen">
+                      <Navbar />
+                      <main className="flex-grow">
+                        {children}
+                      </main>
+                      <Footer />
+                    </div>
+                  </CartProvider>
+                </OrdersProvider>
               </SneakerProvider>
             </ContentProvider>
           </AuthProvider>

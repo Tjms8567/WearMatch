@@ -10,6 +10,8 @@ export default function OutfitsPage() {
   const { outfits } = useSneakerContext();
   const { addItem } = useCart();
   const { designs } = useContentContext();
+  const [selectedColorById, setSelectedColorById] = useState<Record<string, string>>({});
+  const [selectedDesignById, setSelectedDesignById] = useState<Record<string, string>>({});
   
   return (
     <div className="container mx-auto px-4 py-8">
@@ -21,13 +23,24 @@ export default function OutfitsPage() {
             <div className="p-6">
               <h2 className="text-xl font-bold mb-2">{outfit.name}</h2>
               <p className="text-gray-600 mb-4">{outfit.description}</p>
-              <ProductPreview imageUrl={outfit.image} overlayColor={outfit.colors.primary} designSvg={designs[0]?.svg} grayscale={false} height={192} />
+              {(() => {
+                const chosenColor = selectedColorById[outfit.id] || outfit.colors.primary;
+                const chosenDesign = designs.find(d => d.id === selectedDesignById[outfit.id]) || designs[0];
+                return (
+                  <ProductPreview imageUrl={outfit.image} overlayColor={chosenColor} designSvg={chosenDesign?.svg} grayscale={false} height={192} />
+                );
+              })()}
               {/* Color palette from outfit colors + matching algorithm choices */}
               <div className="flex items-center gap-2 mb-4">
                 {['primary','secondary','accent'].map((key) => (
                   <div key={key} className="flex items-center gap-2">
                     <span className="text-xs capitalize text-gray-500 w-16">{key}</span>
-                    <span className="w-6 h-6 rounded-full border" style={{ background: (outfit.colors as any)[key] }} />
+                    <button
+                      aria-label={`Select ${key} color`}
+                      className={`w-7 h-7 rounded-full border ${selectedColorById[outfit.id] === (outfit.colors as any)[key] ? 'ring-2 ring-blue-500' : ''}`}
+                      style={{ background: (outfit.colors as any)[key] }}
+                      onClick={() => setSelectedColorById(prev => ({ ...prev, [outfit.id]: (outfit.colors as any)[key] }))}
+                    />
                   </div>
                 ))}
               </div>
@@ -37,7 +50,13 @@ export default function OutfitsPage() {
                   <h3 className="font-semibold mb-2">Designs</h3>
                   <div className="flex gap-2 overflow-auto">
                     {designs.map((d) => (
-                      <div key={d.id} className="min-w-[130px] h-12 bg-white border rounded flex items-center justify-center px-2" dangerouslySetInnerHTML={{ __html: d.svg }} />
+                      <button
+                        key={d.id}
+                        className={`min-w-[130px] h-12 bg-white border rounded flex items-center justify-center px-2 ${selectedDesignById[outfit.id] === d.id ? 'ring-2 ring-blue-500' : ''}`}
+                        onClick={() => setSelectedDesignById(prev => ({ ...prev, [outfit.id]: d.id }))}
+                        dangerouslySetInnerHTML={{ __html: d.svg }}
+                        aria-label={`Select design ${d.name}`}
+                      />
                     ))}
                   </div>
                 </div>
@@ -60,8 +79,8 @@ export default function OutfitsPage() {
                         name: outfit.name,
                         image: outfit.image,
                         price: outfit.price ?? 0,
-                        selectedColor: outfit.colors.primary,
-                        selectedDesignId: designs[0]?.id,
+                        selectedColor: selectedColorById[outfit.id] || outfit.colors.primary,
+                        selectedDesignId: selectedDesignById[outfit.id] || designs[0]?.id,
                       })}
                       className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
                     >

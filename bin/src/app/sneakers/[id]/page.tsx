@@ -4,10 +4,13 @@ import Link from 'next/link';
 import { useSneakerContext } from '@/context/SneakerContext';
 import { Sneaker, Outfit } from '@/context/SneakerContext';
 import { useCart } from '@/context/CartContext';
+import { useContentContext } from '@/context/ContentContext';
+import ProductPreview from '@/components/ProductPreview';
 
 export default function SneakerDetail({ params }: { params: { id: string } }) {
   const { sneakers, getMatchingOutfits } = useSneakerContext();
   const { addItem } = useCart();
+  const { designs } = useContentContext();
   const [sneaker, setSneaker] = useState<Sneaker | null>(null);
   const [matchingOutfits, setMatchingOutfits] = useState<Outfit[]>([]);
   const [selectedStyle, setSelectedStyle] = useState('All');
@@ -47,11 +50,7 @@ export default function SneakerDetail({ params }: { params: { id: string } }) {
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <img 
-            src={sneaker.image} 
-            alt={`${sneaker.brand} ${sneaker.model}`} 
-            className="w-full h-64 object-cover"
-          />
+          <ProductPreview imageUrl={sneaker.image} overlayColor={sneaker.colors.primary} designSvg={designs[0]?.svg} height={256} />
         </div>
         
         <div>

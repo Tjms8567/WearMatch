@@ -4,6 +4,7 @@ import { Outfit, OutfitItem } from '@/context/SneakerContext';
 import { useCart } from '@/context/CartContext';
 import { useContentContext } from '@/context/ContentContext';
 import { useMemo, useState } from 'react';
+import ProductPreview from '@/components/ProductPreview';
 
 export default function OutfitsPage() {
   const { outfits } = useSneakerContext();
@@ -20,6 +21,7 @@ export default function OutfitsPage() {
             <div className="p-6">
               <h2 className="text-xl font-bold mb-2">{outfit.name}</h2>
               <p className="text-gray-600 mb-4">{outfit.description}</p>
+              <ProductPreview imageUrl={outfit.image} overlayColor={outfit.colors.primary} designSvg={designs[0]?.svg} grayscale={false} height={192} />
               {/* Color palette from outfit colors + matching algorithm choices */}
               <div className="flex items-center gap-2 mb-4">
                 {['primary','secondary','accent'].map((key) => (

@@ -16,6 +16,7 @@ export default function Footer() {
                 <li><a href="/" className="text-gray-300 hover:text-white">Home</a></li>
                 <li><a href="/sneakers" className="text-gray-300 hover:text-white">Sneakers</a></li>
                 <li><a href="/brands" className="text-gray-300 hover:text-white">Brands</a></li>
+                <li><a href="/contact" className="text-gray-300 hover:text-white">Contact</a></li>
               </ul>
             </div>
             <div>
@@ -25,6 +26,13 @@ export default function Footer() {
                 <li><a href="#" className="text-gray-300 hover:text-white">Twitter</a></li>
                 <li><a href="#" className="text-gray-300 hover:text-white">Facebook</a></li>
               </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Newsletter</h4>
+              <form onSubmit={(e)=>e.preventDefault()} className="flex gap-2">
+                <input type="email" placeholder="Your email" className="px-3 py-2 rounded bg-gray-800 placeholder-gray-400 text-white" />
+                <button className="px-4 py-2 bg-primary rounded">Subscribe</button>
+              </form>
             </div>
           </div>
         </div>

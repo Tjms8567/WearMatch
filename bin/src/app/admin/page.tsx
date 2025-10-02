@@ -24,6 +24,10 @@ export default function AdminHome() {
             <h2 className="text-xl font-semibold">Orders</h2>
             <p className="text-gray-600">Review and update customer orders</p>
           </Link>
+          <Link href="/admin/messages" className="block bg-white p-6 rounded shadow hover:shadow-md">
+            <h2 className="text-xl font-semibold">Messages</h2>
+            <p className="text-gray-600">View contact form submissions</p>
+          </Link>
         </div>
       </AdminGate>
     </div>

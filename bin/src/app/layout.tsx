@@ -9,6 +9,7 @@ import { OrdersProvider } from '@/context/OrdersContext'
 import { ThemeProvider } from 'next-themes'
 import { ContentProvider } from '@/context/ContentContext'
 import { AuthProvider } from '@/context/AuthContext'
+import { MessagesProvider } from '@/context/MessagesContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,15 +31,17 @@ export default function RootLayout({
             <ContentProvider>
               <SneakerProvider>
                 <OrdersProvider>
-                  <CartProvider>
-                    <div className="flex flex-col min-h-screen">
-                      <Navbar />
-                      <main className="flex-grow">
-                        {children}
-                      </main>
-                      <Footer />
-                    </div>
-                  </CartProvider>
+                  <MessagesProvider>
+                    <CartProvider>
+                      <div className="flex flex-col min-h-screen">
+                        <Navbar />
+                        <main className="flex-grow">
+                          {children}
+                        </main>
+                        <Footer />
+                      </div>
+                    </CartProvider>
+                  </MessagesProvider>
                 </OrdersProvider>
               </SneakerProvider>
             </ContentProvider>

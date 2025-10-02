@@ -1,9 +1,12 @@
 "use client";
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
+import { useTheme } from 'next-themes';
+import { Moon, Sun } from 'lucide-react';
 
 export default function Navbar() {
   const { totalCount } = useCart();
+  const { theme, setTheme } = useTheme();
   return (
     <nav className="bg-white border-b">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -19,6 +22,13 @@ export default function Navbar() {
               {totalCount}
             </span>
           </Link>
+          <button
+            aria-label="Toggle theme"
+            className="p-2 rounded hover:bg-gray-100"
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          >
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
         </div>
       </div>
     </nav>

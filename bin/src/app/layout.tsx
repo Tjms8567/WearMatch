@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { SneakerProvider } from '@/context/SneakerContext'
 import { CartProvider } from '@/context/CartContext'
+import { ThemeProvider } from 'next-themes'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,17 +22,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SneakerProvider>
-          <CartProvider>
-            <div className="flex flex-col min-h-screen">
-              <Navbar />
-              <main className="flex-grow">
-                {children}
-              </main>
-              <Footer />
-            </div>
-          </CartProvider>
-        </SneakerProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <SneakerProvider>
+            <CartProvider>
+              <div className="flex flex-col min-h-screen">
+                <Navbar />
+                <main className="flex-grow">
+                  {children}
+                </main>
+                <Footer />
+              </div>
+            </CartProvider>
+          </SneakerProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

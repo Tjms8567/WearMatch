@@ -1,0 +1,92 @@
+[
+  {
+    "id": "outfit1",
+    "name": "Urban Casual",
+    "image": "/images/outfits/urban-casual.jpg",
+    "price": 129,
+    "colors": {
+      "primary": "black",
+      "secondary": "white",
+      "accent": "red"
+    },
+    "styles": ["casual", "streetwear"],
+    "items": [
+      {
+        "type": "top",
+        "name": "Black T-shirt",
+        "color": "black"
+      },
+      {
+        "type": "bottom",
+        "name": "Distressed Jeans",
+        "color": "blue"
+      },
+      {
+        "type": "accessory",
+        "name": "Red Cap",
+        "color": "red"
+      }
+    ],
+    "description": "A comfortable urban casual outfit perfect for everyday wear."
+  },
+  {
+    "id": "outfit2",
+    "name": "Athletic Fit",
+    "image": "/images/outfits/athletic-fit.jpg",
+    "price": 99,
+    "colors": {
+      "primary": "navy",
+      "secondary": "white",
+      "accent": "orange"
+    },
+    "styles": ["athletic", "sporty"],
+    "items": [
+      {
+        "type": "top",
+        "name": "Navy Track Jacket",
+        "color": "navy"
+      },
+      {
+        "type": "bottom",
+        "name": "Athletic Shorts",
+        "color": "navy"
+      },
+      {
+        "type": "accessory",
+        "name": "White Headband",
+        "color": "white"
+      }
+    ],
+    "description": "Perfect outfit for training or casual athletic wear."
+  },
+  {
+    "id": "outfit3",
+    "name": "Business Casual",
+    "image": "/images/outfits/business-casual.jpg",
+    "price": 159,
+    "colors": {
+      "primary": "gray",
+      "secondary": "blue",
+      "accent": "brown"
+    },
+    "styles": ["formal", "business"],
+    "items": [
+      {
+        "type": "top",
+        "name": "Blue Button-up Shirt",
+        "color": "blue"
+      },
+      {
+        "type": "bottom",
+        "name": "Gray Chinos",
+        "color": "gray"
+      },
+      {
+        "type": "accessory",
+        "name": "Brown Belt",
+        "color": "brown"
+      }
+    ],
+    "description": "A professional yet comfortable outfit for the office or meetings."
+  }
+]
